@@ -1,0 +1,38 @@
+// payload.rc -- 把 cdccmd.exe / uninstall.exe 作为资源嵌入安装包
+// 编译: windres payload.rc -O coff -o payload.o
+// 注意: 这两个 exe 必须在本 rc 所在目录, 由 build.bat 负责先编译出来。
+
+#include <windows.h>
+#include "version.h"   // CompanyName 取 CDCCMD_PUBLISHER
+
+// 101 = cdccmd.exe
+101 RCDATA "cdccmd.exe"
+// 102 = uninstall.exe
+102 RCDATA "uninstall.exe"
+
+VS_VERSION_INFO VERSIONINFO
+// 改 version.h 的 CDCCMD_VERSION 后, 记得同步下面两个数字
+FILEVERSION     1,1,0,0
+PRODUCTVERSION  1,1,0,0
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "CompanyName",      CDCCMD_PUBLISHER
+            VALUE "FileDescription",  "CDCCMD 安装程序"
+            VALUE "FileVersion",      "1.1.0.0"
+            VALUE "InternalName",     "cdccmd-setup"
+            VALUE "LegalCopyright",   CDCCMD_PUBLISHER
+            VALUE "OriginalFilename", "cdccmd-setup.exe"
+            VALUE "ProductName",      "CDCCMD"
+            VALUE "ProductVersion",   "1.1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
